@@ -5,12 +5,10 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      names: [],
       name: "",
-      lastNames: [],
       lastName: "",
-      tasks:[],
-      newTask: ""
+      newGuest:[],
+      id: 0
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -19,27 +17,30 @@ class App extends Component {
   }
 
   handleChange(event) {
+    let oldTasks = this.state.id
   this.setState({
     name: event.target.value,
+    id: Math.max(oldTasks) + 1
   });
   event.preventDefault();
   }
 
   handleChange1(event) {
   this.setState({
-    lastName: event.target.value
+    lastName: event.target.value,
   });
   event.preventDefault();
   }
 
   handleSubmit(event) {
-    let oldTasks = this.state.tasks
+    let oldTasks = this.state.newGuest
     let newTask = {
+      id: this.state.id,
       name: this.state.name,
       lastName: this.state.lastName
     }
     this.setState({
-      tasks: [...oldTasks, newTask],
+      newGuest: [...oldTasks, newTask],
       newTask: '',
       name: "",
       lastName: ""
@@ -79,8 +80,8 @@ class App extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state.tasks.map((task, index) =>
-                  <tr key={task.name}>
+                {this.state.newGuest.map((task, index) =>
+                  <tr key={task.id}>
                     <td>{task.name}</td>
                     <td>{task.lastName}</td>
                   </tr>
