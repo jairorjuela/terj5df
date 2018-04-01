@@ -22,14 +22,12 @@ class App extends Component {
     name: event.target.value,
     id: Math.max(oldTasks) + 1
   });
-  event.preventDefault();
   }
 
   handleChange1(event) {
   this.setState({
     lastName: event.target.value,
   });
-  event.preventDefault();
   }
 
   handleSubmit(event) {
