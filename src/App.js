@@ -5,37 +5,33 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      name: "",
-      lastName: "",
       newGuest:[],
-      id: 0
+      lastName: "",
+      name: ""
     };
-
     this.handleChange = this.handleChange.bind(this);
-    this.handleChange1 = this.handleChange1.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
-    let oldTasks = this.state.id
-  this.setState({
-    name: event.target.value,
-    id: Math.max(oldTasks) + 1
-  });
+
+    if(event.target.name === "last-name"){
+      this.setState({
+        lastName: event.target.value
+      });
+    }else{
+      this.setState({
+        name: event.target.value
+      });
+    }
   }
 
-  handleChange1(event) {
-  this.setState({
-    lastName: event.target.value,
-  });
-  }
 
   handleSubmit(event) {
     let oldTasks = this.state.newGuest
     let newTask = {
-      id: this.state.id,
-      name: this.state.name,
-      lastName: this.state.lastName
+      lastName: this.state.lastName,
+      name: this.state.name
     }
     this.setState({
       newGuest: [...oldTasks, newTask],
@@ -46,6 +42,17 @@ class App extends Component {
     event.preventDefault()
   }
 
+  renderTasks() {
+    const tasks = this.state.newGuest.map(name => {
+      return (
+        <tr>
+          <td>{name.name}</td>
+          <td>{name.lastName}</td>
+        </tr>
+      )
+    })
+    return tasks
+  }
 
   render() {
     return (
@@ -53,7 +60,7 @@ class App extends Component {
         <div className="row">
           <div className="col-sm-6 col-sm-offset-3">
 
-            <form>
+            <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label htmlFor="first-name">Nombre</label>
                 <input type="text" className="form-control" name="first-name" value={this.state.name} onChange={this.handleChange}/>
@@ -61,7 +68,7 @@ class App extends Component {
 
               <div className="form-group">
                 <label htmlFor="last-name">Apellido</label>
-                <input type="text" className="form-control" name="last-name" value={this.state.lastName} onChange={this.handleChange1}/>
+                <input type="text" className="form-control" name="last-name" value={this.state.lastName} onChange={this.handleChange}/>
               </div>
 
               <div className="action">
@@ -78,12 +85,7 @@ class App extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state.newGuest.map((task, index) =>
-                  <tr key={task.id}>
-                    <td>{task.name}</td>
-                    <td>{task.lastName}</td>
-                  </tr>
-                )}
+                {this.renderTasks()}
               </tbody>
             </table>
           </div>
